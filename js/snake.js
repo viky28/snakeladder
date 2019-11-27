@@ -21,19 +21,20 @@ function drawBox(x, y) {
     ctx.stroke();
 }
 document.addEventListener('keydown', keyevent, false);
-
+var X = box[0].x;
+var Y = box[0].y;
 function keyevent(e) {
     if (e.key === "ArrowUp" ) {
-        console.log("Up")
-        drawBox(box[0].x,box[0].y--)
+        drawBox(X,--Y)
+        console.log("Up","---Coordinates",X,Y)
     } else if (e.key === "ArrowDown") {
-        console.log("Down")
-        drawBox(box[0].x,box[0].y++)
+        drawBox(X,++Y)
+        console.log("Down","---Coordinates",X,Y)
     } else if (e.key === "ArrowLeft") {
-        console.log("Left")
-        drawBox(box[0].x--,box[0].y)
+        drawBox(--X,Y)
+        console.log("Left","---Coordinates",X,Y)
     } else if (e.key === "ArrowRight") {
-        console.log("Right")
-        drawBox(box[0].x++,box[0].y)
+        drawBox(++X,Y)
+        console.log("Right","---Coordinates",X,Y)
     }
 }
