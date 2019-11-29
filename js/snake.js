@@ -55,14 +55,6 @@ function drawBox(x, y) {
     ctx.rect(x * boxW + (boxW / 4), y * boxH + (boxH / 4), boxW / 2 + 1, boxH / 2 + 1);
     ctx.stroke();
 }
-// function checkGotiSumForMax(goti){
-//     if(goti==100){
-//         console.log("You Won !")
-//         // ctx.textAlign = "center";
-//         // ctx.fillText("You Won !");
-//         return;
-//     }
-// }
 
 function play() {
     gotiNumber = Math.floor(Math.random() * 6) + 1;
@@ -79,7 +71,6 @@ function play() {
     }
     for (let i = 0; i < coordinates.length; i++) {
         if (gotiSum == coordinates[i].count) {
-            // console.log("x", X, "y", Y)
             X = coordinates[i].pos.x;
             Y = coordinates[i].pos.y;
             drawBox(X, Y)
@@ -96,46 +87,36 @@ function play() {
 }
 
 function snakeBite(goti) {
-    // console.log("goti", goti);
     let filtercount = snakes.filter(function(item) {
-        // console.log("item", item.s)
         return item.s == goti;
     })
-    // console.log("filtercount snakes", filtercount[0])
     if (filtercount[0]) {
         let snakeBiteDown = coordinates.filter(function(item) {
-            // console.log("snake item of coordinates", item)
             return item.count == filtercount[0].e;
         })
-        // console.log("snakeBiteDown", snakeBiteDown)
         let x = snakeBiteDown[0].pos.x;
         let y = snakeBiteDown[0].pos.y;
         gotiSum = snakeBiteDown[0].count;
         setTimeout(function() {
             drawBox(x, y)
-        }, 500)
+        }, 1000)
 
     }
 }
 
 function ladderClimb(goti) {
-    // console.log("goti", goti);
     let filtercount = ladders.filter(function(item) {
-        // console.log("item", item.s)
         return item.s == goti;
     })
-    // console.log("filtercount ladders", filtercount[0])
     if (filtercount[0]) {
         let ladderClimbUp = coordinates.filter(function(item) {
-            // console.log("ladder item of coordinates", item)
             return item.count == filtercount[0].e;
         })
-        // console.log("ladderClimbUp", ladderClimbUp)
         let x = ladderClimbUp[0].pos.x;
         let y = ladderClimbUp[0].pos.y;
         gotiSum = ladderClimbUp[0].count;
         setTimeout(function() {
             drawBox(x, y)
-        }, 500)
+        }, 1000)
     }
 }
