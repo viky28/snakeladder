@@ -16,7 +16,7 @@ let ladders = [{ s: 1, e: 38 }, { s: 4, e: 14 }, { s: 9, e: 31 }, { s: 21, e: 42
 
 let players = [
     { playername: "viky", gotiSum: 0, color: "red", active: true, pos: { x: 0, y: 9 } },
-    { playername: "sasi", gotiSum: 0, color: "green", active: true, pos: { x: 1, y: 9 } },
+    { playername: "sasi", gotiSum: 0, color: "green", active: true, pos: { x: 0, y: 9 } },
     { playername: "sidhu", gotiSum: 0, color: "blue", pos: {} },
     { playername: "viky1", gotiSum: 0, color: "yellow", pos: {} }
 ]
