@@ -23,9 +23,9 @@ let players = [
     { playername: "viky1", color: "yellow", pos: {} }
 ]
 let active = players[0];
-console.log("active is ",active.playername)
+console.log("active is ", active.playername)
 let tempPlayer = {
-    playerIndex: null,
+    playerIndex: 0,
     diceCount: 0,
     stepMoved: 0,
     completed: false
@@ -92,28 +92,23 @@ function refreshAndDrawBox() {
 }
 
 function rollDice() {
-	console.log("activeeeeeeee", active,tempPlayer)
+    // console.log("activeeeeeeee", active,tempPlayer)
     diceNumber = Number(document.getElementById('diceNum').value) - 1;
     tempPlayer.diceCount = diceNumber;
-    console.log("active is ", active.playername)
+    tempPlayer.playerIndex = active.playerIndex;
+    console.log("activeeeeeeee", active, tempPlayer)
+    // console.log("active is ", active.playername)
 
     function _setTime() {
         setTimeout(function() {
             tempPlayer.stepMoved = ++tempPlayer.stepMoved;
             tempPlayer.playerIndex = ++tempPlayer.playerIndex;
-            console.log("active player index",tempPlayer.playerIndex, active.playerIndex)
+            console.log("active player index", tempPlayer.playerIndex, active.playerIndex)
             active.pos.x = coordinates[tempPlayer.playerIndex].pos.x;
             active.pos.y = coordinates[tempPlayer.playerIndex].pos.y;
             refreshAndDrawBox();
             if (tempPlayer.diceCount == tempPlayer.stepMoved) {
                 tempPlayer.completed = true;
-                if (active === players[0]) {
-                	active.playerIndex = tempPlayer.playerIndex;
-                    active = players[1]
-                } else {
-                	active.playerIndex = tempPlayer.playerIndex;
-                    active = players[0]
-                }
                 if (tempPlayer.completed) {
                     console.log("steps done !", active, players)
                     snakeBite(active)
@@ -129,10 +124,24 @@ function rollDice() {
     _setTime();
 }
 
+function switchPlayer() {
+    if (active === players[0]) {
+        active.playerIndex = tempPlayer.playerIndex + 1;
+        tempPlayer.playerIndex = 0;
+        active = players[1]
+        console.log("active 11111")
+    } else {
+        active.playerIndex = tempPlayer.playerIndex + 1;
+        tempPlayer.playerIndex = 0;
+        active = players[0]
+        console.log("active 22222")
+    }
+}
+
 function snakeBite(player) {
-    console.log("player is ", player)
+    // console.log("player is ", player)
     let filtercount = snakes.filter(function(item) {
-        return item.s == player.currentPos;
+        return item.s == player.playerIndex;
     })
     console.log("filter count snake", filtercount[0])
     if (filtercount[0]) {
@@ -142,16 +151,17 @@ function snakeBite(player) {
         let y = coordinates[end].pos.y;
         player.pos.x = x;
         player.pos.y = y;
-        player.currentPos = end;
-        player.prevPos = start;
+        player.playerIndex = end;
         refreshAndDrawBox();
     }
+    switchPlayer()
 }
 
 function ladderClimb(player) {
-    console.log("player is ", player)
+    // console.log("player is ", player)
     let filtercount = ladders.filter(function(item) {
-        return item.s == player.currentPos;
+        console.log("item===", item, player)
+        return item.s == player.playerIndex;
     })
     console.log("filter count ladder", filtercount[0])
     if (filtercount[0]) {
@@ -163,10 +173,10 @@ function ladderClimb(player) {
         console.log("console.log(player) x and y", x, y)
         player.pos.x = x;
         player.pos.y = y;
-        player.currentPos = end;
-        player.prevPos = end;
+        player.playerIndex = end;
         console.log("console.log(player)", player)
         refreshAndDrawBox();
-    }
+    } 
+    switchPlayer()
     player.active = true;
 }
