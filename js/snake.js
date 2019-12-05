@@ -76,7 +76,21 @@ function drawBox(x, y, player) {
 }
 document.getElementById('button').innerHTML = players[0].playername;
 
-function rollDice() {
+// rollDice(){
+//      update diceCount
+//         function _setTime
+//        setTimeout{
+//         tempPlayer.stepmoved = ++tempPlayer.stepmoved
+//         if(tempPlayer.stepmoved == diceCount){
+//             tempPlayer.completed = true
+//         }
+//         moveLogic(tempPlayer.completed)
+        
+//        },500
+
+// }
+
+function moveLogic() {
     // if (!players[0].active && !players[1].active && !players[2].active && !players[3].active) {
     //     console.log("Game Initaited")
     //     players[0].active = true;
@@ -98,7 +112,8 @@ function rollDice() {
 function play(player) {
     console.log("Player " + player.playername + " is Active")
     console.log("player details", players)
-    gotiNumber = Math.floor(Math.random() * 6) + 1;
+    // gotiNumber = Math.floor(Math.random() * 6) + 1;
+    gotiNumber = Number(document.getElementById("diceNum").value);
     // let gotiSum = player.gotiSum;
     player.gotiSum = player.gotiSum + gotiNumber;
     if (player.gotiSum > 100) {
@@ -106,7 +121,7 @@ function play(player) {
     }
 
     console.log("Goti " + gotiNumber + " Goti Sum " + player.gotiSum);
-    document.getElementById('placeholder').innerHTML = gotiNumber;
+    // document.getElementById('placeholder').innerHTML = gotiNumber;
     if (player.gotiSum > 100) {
         console.log("goti sum excceeded 100")
         player.gotiSum = player.gotiSum - gotiNumber;
@@ -157,7 +172,7 @@ function snakeBite(player) {
             drawBox(players[0].pos.x, players[0].pos.y, players[0])
             drawBox(players[1].pos.x, players[1].pos.y, players[1])
             // drawBox(x, y,player)
-        }, 1000)
+        }, 500)
     }
 }
 
@@ -181,7 +196,7 @@ function ladderClimb(player) {
             drawBox(players[0].pos.x, players[0].pos.y, players[0])
             drawBox(players[1].pos.x, players[1].pos.y, players[1])
             // drawBox(x, y,player)
-        }, 1000)
+        }, 500)
     }
     player.active = true;
 }
