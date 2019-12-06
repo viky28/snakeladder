@@ -93,7 +93,12 @@ function refreshAndDrawBox() {
 
 function rollDice() {
     // console.log("activeeeeeeee", active,tempPlayer)
-    diceNumber = Number(document.getElementById('diceNum').value) - 1;
+    let diceValue = Number(document.getElementById('diceNum').value)
+    if(diceValue==1){
+        diceNumber = 1;
+    } else {
+        diceNumber = diceValue-1;
+    }
     tempPlayer.diceCount = diceNumber;
     tempPlayer.playerIndex = active.playerIndex;
     console.log("activeeeeeeee", active, tempPlayer)
@@ -111,27 +116,29 @@ function rollDice() {
                 tempPlayer.completed = true;
                 if (tempPlayer.completed) {
                     console.log("steps done !", active, players)
+                    
+                    active.playerIndex = tempPlayer.playerIndex + 1;
                     snakeBite(active)
                     ladderClimb(active)
+                    // switchPlayer()
                     tempPlayer.diceCount = 0;
                     tempPlayer.stepMoved = 0;
+                    switchPlayer()
                 }
                 return;
             }
             _setTime();
-        }, 500)
+        }, 200)
     }
     _setTime();
 }
 
-function switchPlayer() {
+function switchPlayer(cb) {
     if (active === players[0]) {
-        active.playerIndex = tempPlayer.playerIndex + 1;
         tempPlayer.playerIndex = 0;
         active = players[1]
         console.log("active 11111")
     } else {
-        active.playerIndex = tempPlayer.playerIndex + 1;
         tempPlayer.playerIndex = 0;
         active = players[0]
         console.log("active 22222")
@@ -145,38 +152,36 @@ function snakeBite(player) {
     })
     console.log("filter count snake", filtercount[0])
     if (filtercount[0]) {
-        let start = filtercount[0].s
-        let end = filtercount[0].e
+        let start = filtercount[0].s;
+        let end = filtercount[0].e-1;
         let x = coordinates[end].pos.x;
         let y = coordinates[end].pos.y;
         player.pos.x = x;
         player.pos.y = y;
-        player.playerIndex = end;
+        player.playerIndex = end+1;
         refreshAndDrawBox();
     }
-    switchPlayer()
+    
 }
 
 function ladderClimb(player) {
-    // console.log("player is ", player)
+    console.log("player is ", player)
     let filtercount = ladders.filter(function(item) {
-        console.log("item===", item, player)
+        console.log("boolean",item.s,player.playerIndex,item.s==player.playerIndex)
         return item.s == player.playerIndex;
     })
-    console.log("filter count ladder", filtercount[0])
+    console.log("filter count ladder", filtercount)
     if (filtercount[0]) {
         let start = filtercount[0].s;
         let end = filtercount[0].e - 1;
         let x = coordinates[end].pos.x;
         let y = coordinates[end].pos.y;
-        console.log("coordinates herer", coordinates)
         console.log("console.log(player) x and y", x, y)
         player.pos.x = x;
         player.pos.y = y;
-        player.playerIndex = end;
+        player.playerIndex = end+1;
         console.log("console.log(player)", player)
         refreshAndDrawBox();
     } 
-    switchPlayer()
     player.active = true;
 }
