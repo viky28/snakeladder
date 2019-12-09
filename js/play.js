@@ -31,9 +31,6 @@ let tempPlayer = {
     completed: false
 }
 
-
-
-
 img.src = 'images/snake_and_ladder.png';
 
 img.onload = function() {
@@ -74,7 +71,7 @@ function loadDefaultBox() {
 }
 
 function drawBox(x, y, player) {
-    // console.log(x, +" " + y, ": draw for ", player)
+    console.log(x, +" " + y, ": draw for ", player)
     ctx.beginPath();
     ctx.fillStyle = player.color;
     ctx.fillRect(x * boxW + (boxW / 4), y * boxH + (boxH / 4), boxW / 2, boxH / 2);
@@ -93,31 +90,35 @@ function refreshAndDrawBox() {
 
 function rollDice() {
     // console.log("activeeeeeeee", active,tempPlayer)
-    let diceValue = Number(document.getElementById('diceNum').value)
-    if(diceValue==1){
-        diceNumber = 1;
-    } else {
-        diceNumber = diceValue-1;
-    }
-    tempPlayer.diceCount = diceNumber;
+    let diceNumber = Number(document.getElementById('diceNum').value)
+
+    // if (diceNumber == 1) {
+    //     console.log("dicee count one", diceNumber)
+    //     diceNumber = 1;
+    // } else {
+    //     console.log("dicee count two", diceNumber)
+    //     diceNumber = diceNumber-1;
+    // }
+    tempPlayer.diceCount = diceNumber - 1;
     tempPlayer.playerIndex = active.playerIndex;
-    console.log("activeeeeeeee", active, tempPlayer)
-    // console.log("active is ", active.playername)
 
     function _setTime() {
         setTimeout(function() {
-            tempPlayer.stepMoved = ++tempPlayer.stepMoved;
-            tempPlayer.playerIndex = ++tempPlayer.playerIndex;
-            console.log("active player index", tempPlayer.playerIndex, active.playerIndex)
+
+            ++tempPlayer.stepMoved;
+            ++tempPlayer.playerIndex;
+            // console.log("check one 1111", tempPlayer.diceCount, tempPlayer.stepMoved)
             active.pos.x = coordinates[tempPlayer.playerIndex].pos.x;
             active.pos.y = coordinates[tempPlayer.playerIndex].pos.y;
+
             refreshAndDrawBox();
             if (tempPlayer.diceCount == tempPlayer.stepMoved) {
                 tempPlayer.completed = true;
                 if (tempPlayer.completed) {
                     console.log("steps done !", active, players)
-                    
-                    active.playerIndex = tempPlayer.playerIndex + 1;
+                    if (diceNumber) {
+                        active.playerIndex = tempPlayer.playerIndex + 1;
+                    }
                     snakeBite(active)
                     ladderClimb(active)
                     // switchPlayer()
@@ -128,7 +129,7 @@ function rollDice() {
                 return;
             }
             _setTime();
-        }, 200)
+        }, 400)
     }
     _setTime();
 }
@@ -153,21 +154,21 @@ function snakeBite(player) {
     console.log("filter count snake", filtercount[0])
     if (filtercount[0]) {
         let start = filtercount[0].s;
-        let end = filtercount[0].e-1;
+        let end = filtercount[0].e - 1;
         let x = coordinates[end].pos.x;
         let y = coordinates[end].pos.y;
         player.pos.x = x;
         player.pos.y = y;
-        player.playerIndex = end+1;
+        player.playerIndex = end + 1;
         refreshAndDrawBox();
     }
-    
+
 }
 
 function ladderClimb(player) {
     console.log("player is ", player)
     let filtercount = ladders.filter(function(item) {
-        console.log("boolean",item.s,player.playerIndex,item.s==player.playerIndex)
+        console.log("boolean", item.s, player.playerIndex, item.s == player.playerIndex)
         return item.s == player.playerIndex;
     })
     console.log("filter count ladder", filtercount)
@@ -179,9 +180,9 @@ function ladderClimb(player) {
         console.log("console.log(player) x and y", x, y)
         player.pos.x = x;
         player.pos.y = y;
-        player.playerIndex = end+1;
+        player.playerIndex = end + 1;
         console.log("console.log(player)", player)
         refreshAndDrawBox();
-    } 
+    }
     player.active = true;
 }
